@@ -12,7 +12,7 @@ Ensure you have the following installed:
 - **Git** (For version control)
 - **OpenAI API Key** (To integrate the chatbot functionality)
 
-## Setup Instructions
+### Setup Instructions
 
 ### 1. Clone the Repository
 
@@ -21,9 +21,9 @@ git clone https://github.com/HabtamuTesfie/ChatBotIntegration.git
 cd ChatBotIntegration
 ```
 
-### Update the `application.conf` File
+### 2. Update the `application.conf` File
 
-Update the `application.conf` file with your PostgreSQL credentials if they differ from the default settings:
+Ensure you have created the database `edutrieum` in PostgreSQL. Then, update the `application.conf` file with your PostgreSQL credentials if they differ from the default settings:
 
 ### properties
 ```hocon
@@ -37,7 +37,12 @@ db {
 }
 ```
 
-### 3. Configure the OpenAI API
+### 3. Update the `persistence.xml` File
+
+Update the `persistence.xml` file in the project's `src/main/resources/META-INF/` directory with your database credentials.
+
+
+### 4. Configure the OpenAI API
 
 In the `application.conf` file, replace the `openai.api.key` with your actual OpenAI API key:
 
@@ -45,7 +50,7 @@ In the `application.conf` file, replace the `openai.api.key` with your actual Op
 openai.api.key = "YOUR_OPENAI_API_KEY"
 ```
 
-### 4. Build the Project
+### 5. Build the Project
 
 Use SBT to compile and resolve dependencies:
 
@@ -53,7 +58,7 @@ Use SBT to compile and resolve dependencies:
 sbt clean compile
 ```
 
-### 5. Run the Application
+### 6. Run the Application
 
 Start the Play application using SBT:
 

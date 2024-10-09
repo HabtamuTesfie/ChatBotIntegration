@@ -90,7 +90,7 @@ public class JPAChatDialogueRepository implements ChatDialogueRepository {
      */
     //--------------------------------------------------------------------------------
     private Stream<ChatDialogue> findAllByUser(EntityManager em, String email) {
-        TypedQuery<ChatDialogue> query = em.createQuery("SELECT c FROM ChatDialogue c WHERE c.userIdentifier = :email", ChatDialogue.class);
+        TypedQuery<ChatDialogue> query = em.createQuery("SELECT c FROM ChatDialogue c WHERE c.email = :email", ChatDialogue.class);
         query.setParameter("email", email);
         List<ChatDialogue> chatRequests = query.getResultList();
         return chatRequests.stream();
