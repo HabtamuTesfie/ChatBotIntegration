@@ -22,7 +22,7 @@ public interface ChatDialogueRepository {
      * @return A CompletionStage that resolves when the save completes.
      */
     //--------------------------------------------------------------------------------
-    CompletionStage<ChatDialogue> saveChatRequest(ChatDialogue chatRequest);
+    CompletionStage<ChatDialogue> saveChatDialogue(ChatDialogue chatRequest);
 
     //--------------------------------------------------------------------------------
     /**

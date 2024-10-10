@@ -1,13 +1,37 @@
-@(email: String)
+@()
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/home.css")">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="@routes.Assets.versioned("javascripts/home.js")"></script>
   </head>
   <body>
-    <h1>Welcome to the home page!</h1>
-    <p>Your email is: @email</p>
+    <div class="logout-container">
+      <h1>AI ChatBot</h1>
+      <div>
+        <button class="logout-button" onclick="logout()">LOGOUT</button>
+      </div>
+    </div>
+
+    <div class="chatbot-container">
+      <div id="chat-box" class="chat-box"></div>
+
+      <div class="input-container">
+        <div style="position: relative; display: flex">
+          <textarea id="user-instruction" placeholder="Enter instruction for the AI" rows="1" oninput="autoGrow(this)"></textarea>
+        </div>
+        <div style="position: relative; display: flex">
+          <textarea id="user-input" placeholder="Enter your message" rows="1" oninput="autoGrow2(this)"></textarea>
+          <button class="send-button" onclick="sendMessage()">
+            <span>↑</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

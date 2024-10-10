@@ -69,5 +69,39 @@ sbt run
 The application should now be running on [http://localhost:9000](http://localhost:9000).
 
 
+## Testing the UI
 
+Once the application is running, you can test the UI by following these steps:
+
+### Access the Login Page:
+
+1. Open your web browser and navigate to [http://localhost:9000](http://localhost:9000).
+2. You should see a login page with two input fields: one for the **Username** and one for the **Email**.
+
+### Enter Credentials:
+
+- **Username:** You can enter any value in the username field. Note that the username is just a placeholder for now and is not used in the backend. There is also minimal validation on this field.
+- **Email:** Enter any valid email address. The email address is essential for session management and acts as the user identifier.
+
+### Login:
+
+1. After entering both the username and email, submit the form to log in.
+2. If the email is valid, you will be successfully logged in, and the chatbot interface will be displayed.
+
+### Chatbot Interaction:
+
+- Once logged in, you should see the chatbot app displayed on the screen.
+- You can interact with the chatbot and receive responses generated through the integrated OpenAI API.
+
+### Notes:
+
+- The **Username** field is currently only for display and does not affect the functionality of the backend.
+- The **Email** is mandatory, as it is used to manage user sessions.
+- Ensure you have a valid OpenAI API key configured in the `application.conf` file to receive responses from the chatbot.
+
+## Future Enhancements
+
+- Implement username validation and integration with the backend.
+- Add an email verifier to check if the email is valid.
+- Enhance the chatbot UI for a better user experience.
 

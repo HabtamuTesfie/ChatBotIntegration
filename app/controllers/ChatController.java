@@ -8,10 +8,9 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.ChatService;
-import services.ChatServiceImpl;
 
 import javax.inject.Inject;
-import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 //--------------------------------------------------------------------------------
@@ -28,7 +27,7 @@ public class ChatController extends Controller {
     private final FormFactory formFactory;
 
     @Inject
-    public ChatController(ChatServiceImpl chatService, FormFactory formFactory) {
+    public ChatController(ChatService chatService, FormFactory formFactory) {
         this.chatService = chatService;
         this.formFactory = formFactory;
     }
@@ -50,7 +49,8 @@ public class ChatController extends Controller {
         }
 
         ChatQueryDTO chatQueryDTO = boundForm.get();
-        String email = getEmailFromSession(request);
+        Http.Cookie emailCookie = request.cookies().get("email").orElse(null);
+        String email = (emailCookie != null) ? emailCookie.value() : "anonymous";
 
         return chatService.processChatRequest(chatQueryDTO, email)
             .thenApply(chatRequest -> ok(Json.toJson(chatRequest)))
@@ -59,60 +59,29 @@ public class ChatController extends Controller {
 
     //--------------------------------------------------------------------------------
     /**
-     * Fetches all chat queries for the logged-in user.
-     * @param request the HTTP request.
-     * @return a CompletionStage containing the Result with the list of queries.
+     * Fetches all chat queries for the logged-in user. This method expects an
+     * email cookie to be present in the request, which identifies the user.
+     * If the email cookie is missing or empty, the method will return a
+     * bad request response with an error message.
+     *
+     * @param request the HTTP request containing cookies.
+     * @return a CompletionStage containing the Result with the list of queries
+     *         if the email is valid, or a bad request response if the email
+     *         is missing.
      */
     //--------------------------------------------------------------------------------
     public CompletionStage<Result> getAllQueries(Http.Request request) {
-        String email = getEmailFromSession(request);
+        Http.Cookie emailCookie = request.cookies().get("email").orElse(null);
+
+        if (emailCookie == null || emailCookie.value().trim().isEmpty()) {
+            return CompletableFuture.completedFuture(badRequest("Error: Email is required and missing in the cookies."));
+        }
+
+        String email = emailCookie.value();
 
         return chatService.getAllQueriesByUser(email)
             .thenApply(queries -> ok(Json.toJson(queries)))
             .exceptionally(e -> internalServerError("Error fetching queries: " + e.getMessage()));
     }
 
-    //--------------------------------------------------------------------------------
-    /**
-     * Handles user login by storing the email in the session.
-     * @param request the HTTP request.
-     * @return a redirect to the home page with the email added to the session.
-     * @throws IllegalArgumentException if the email is missing.
-     */
-    //--------------------------------------------------------------------------------
-    public Result login(Http.Request request) {
-        Map<String, String[]> formParams = request.body().asFormUrlEncoded();
-
-        if (formParams == null || !formParams.containsKey("email") || formParams.get("email").length == 0) {
-            throw new IllegalArgumentException("Email is required for login.");
-        }
-
-        String email = formParams.get("email")[0];
-        return redirect("/home").addingToSession(request, "email", email);
-    }
-
-    //--------------------------------------------------------------------------------
-    /**
-     * Renders the home page with the email from the session.
-     * @param request the HTTP request.
-     * @return the rendered home page.
-     */
-    //--------------------------------------------------------------------------------
-    public Result home(Http.Request request) {
-        String email = request.session().get("email").orElse("No email in session");
-        return ok(views.html.home.render(email));
-    }
-
-    //--------------------------------------------------------------------------------
-    /**
-     * Helper method to fetch email from the session.
-     * @param request the HTTP request.
-     * @return the email if found, otherwise throws an exception.
-     */
-    //--------------------------------------------------------------------------------
-    private String getEmailFromSession(Http.Request request) {
-        return request.session().get("email").orElseThrow(() ->
-            new IllegalArgumentException("No email in session, user must be logged in."));
-    }
 }
-

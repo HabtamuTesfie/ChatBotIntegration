@@ -32,13 +32,13 @@ public class JPAChatDialogueRepository implements ChatDialogueRepository {
     /**
      * Saves a ChatDialogue asynchronously within a transaction.
      *
-     * @param chatRequest The ChatDialogue to be saved.
+     * @param chatDialogue The ChatDialogue to be saved.
      * @return A CompletionStage that resolves to the saved ChatDialogue.
      */
     //--------------------------------------------------------------------------------
     @Override
-    public CompletionStage<ChatDialogue> saveChatRequest(ChatDialogue chatRequest) {
-        return supplyAsync(() -> wrap(em -> insert(em, chatRequest)), executionContext);
+    public CompletionStage<ChatDialogue> saveChatDialogue(ChatDialogue chatDialogue) {
+        return supplyAsync(() -> wrap(em -> insert(em, chatDialogue)), executionContext);
     }
 
     //--------------------------------------------------------------------------------
@@ -71,13 +71,13 @@ public class JPAChatDialogueRepository implements ChatDialogueRepository {
      * Inserts a ChatDialogue entity into the database.
      *
      * @param em The EntityManager used to persist the entity.
-     * @param chatRequest The ChatDialogue entity to be inserted.
+     * @param chatDialogue The ChatDialogue entity to be inserted.
      * @return The inserted ChatDialogue entity.
      */
     //--------------------------------------------------------------------------------
-    private ChatDialogue insert(EntityManager em, ChatDialogue chatRequest) {
-        em.persist(chatRequest);
-        return chatRequest;
+    private ChatDialogue insert(EntityManager em, ChatDialogue chatDialogue) {
+        em.persist(chatDialogue);
+        return chatDialogue;
     }
 
     //--------------------------------------------------------------------------------

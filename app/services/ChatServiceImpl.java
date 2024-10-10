@@ -93,7 +93,7 @@ public class ChatServiceImpl implements ChatService {
         chatDialogue.setEmail(email);
         chatDialogue.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
-        chatRequestRepository.saveChatRequest(chatDialogue);
+        chatRequestRepository.saveChatDialogue(chatDialogue);
 
         return convertToDTO(chatDialogue);
     }

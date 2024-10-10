@@ -1,5 +1,6 @@
 package services;
 
+import com.google.inject.ImplementedBy;
 import dto.ChatDialogueDTO;
 import dto.ChatQueryDTO;
 
@@ -12,6 +13,7 @@ import java.util.stream.Stream;
  * chat history.
  */
 //--------------------------------------------------------------------------------
+@ImplementedBy(ChatServiceImpl.class)
 public interface ChatService {
 
     //--------------------------------------------------------------------------------
