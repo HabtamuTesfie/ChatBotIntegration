@@ -60,7 +60,9 @@ function sendMessage() {
     });
 
   document.getElementById('user-input').value = '';
+  document.getElementById('user-instruction').value = '';
   autoGrow(document.getElementById('user-input'));
+  autoGrow(document.getElementById('user-instruction'));
 }
 
 function loadPreviousQueries() {

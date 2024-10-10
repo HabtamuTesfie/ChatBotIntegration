@@ -41,16 +41,15 @@ body {
 }
 
 .message.user {
-    background-color: #5c677d;
-    color: #fff;
-    /*align-self: flex-end;*/
-    width: 95%;
+  background-color: #5c677d;
+  color: #fff;
+  width: 95%;
+  border-radius: 1.5rem 0 1.5rem 0;
 }
 
 .message.bot {
     background-color: #eee5e9;
     color: #000;
-    /*align-self: flex-start;*/
     width: 95%;
 }
 
